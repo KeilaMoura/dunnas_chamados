@@ -57,7 +57,7 @@ Siga os passos abaixo para rodar o projeto em qualquer ambiente. É necessário 
 
 **1. Clone o repositório:**
 ```bash
-git clone URL_DO_SEU_REPOSITORIO
+git clone https://github.com/KeilaMoura/dunnas_chamados.git
 cd dunnas_chamados
 ```
 
