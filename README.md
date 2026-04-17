@@ -32,7 +32,7 @@ O sistema possui controle de acesso baseado em três perfis (Roles):
 ## 🏗️ Processo de Desenvolvimento e Decisões Técnicas
 
 * **Ruby on Rails:** Escolhido pela alta produtividade e pelas convenções consolidadas que permitem focar nas regras de negócio.
-* **Administrate:** Adotado para a criação acelerada do painel de controle (Back-office). As telas geradas foram customizadas para lidar com escopos específicos (ex: mostrar apenas colaboradores em determinados formulários).
+* **Administrate:** Adotado para a criação acelerada do painel de controle (Back-office). As telas geradas foram customizadas para lidar com escopos específicos.
 * **Docker & Docker Compose:** Utilizado para padronizar o ambiente de desenvolvimento. Toda a aplicação e o banco de dados rodam em containers, eliminando a barreira do "na minha máquina funciona" e facilitando o deploy.
 * **Testes (RSpec):** Implementação de testes automatizados para garantir a estabilidade das regras de negócio e integridade do banco de dados a cada nova alteração.
 
