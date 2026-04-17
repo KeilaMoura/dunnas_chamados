@@ -1,5 +1,6 @@
 
 
+
 # 🏢 Dunnas Chamados
 
 ![Ruby](https://img.shields.io/badge/Ruby-CC342D?style=for-the-badge&logo=ruby&logoColor=white)
@@ -48,7 +49,7 @@ O sistema possui controle de acesso baseado em três perfis (Roles):
 
 ## 🗄️ Diagrama Relacional do Banco de Dados
 
-<img width="1833" height="1766" alt="Untitled" src="https://github.com/user-attachments/assets/ee4045fa-a8ec-40d8-aca6-86e5935b9e7d" />
+<img width="1833" height="1766" alt="Untitled (1)" src="https://github.com/user-attachments/assets/34220afc-aad9-4c40-8134-970058e36e60" />
 
 
 ## 🚀 Instruções de Execução (Docker)
