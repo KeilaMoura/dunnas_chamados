@@ -1,13 +1,11 @@
 
 
-
 # 🏢 Dunnas Chamados
 
 ![Ruby](https://img.shields.io/badge/Ruby-CC342D?style=for-the-badge&logo=ruby&logoColor=white)
 ![Ruby on Rails](https://img.shields.io/badge/Ruby_on_Rails-CC0000?style=for-the-badge&logo=ruby-on-rails&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
-
 
 ## 🎯 Sobre o Projeto e Problema Resolvido
 
@@ -58,24 +56,29 @@ Para garantir uma gestão eficiente, o sistema conta com filtros inteligentes qu
 
 ## 🔄 Fluxo do Sistema (Ciclo de Vida do Chamado)
 
-1.  **Vínculo e Contexto:** O sistema identifica quais unidades estão vinculadas ao **Morador**. Ao abrir um chamado, o morador seleciona a unidade específica do problema.
-2.  **Abertura e Especialidade:** O morador escolhe a categoria (ex: Elétrica). O sistema inicia automaticamente a contagem do **SLA (prazo)** definido para aquele tipo.
-3.  **Triagem e Visibilidade:** O chamado aparece no dashboard apenas dos **Colaboradores** com a especialidade compatível. O **Administrador** acompanha todo o processo globalmente.
-4.  **Gestão e Interação:** Colaborador, Morador e Admin utilizam os **Comentários** que permitem textos e imagens para comunicação oficial e registro auditável.
-5.  **Conclusão:** Após o serviço, o chamado é marcado como **Concluído**. Ele permanece listado no sistema para consulta histórica com o status atualizado.
-6.  **Manutenção da Base:** Caso necessário, o **Administrador** tem a permissão exclusiva para remover chamados concluídos da listagem oficial.
+1. **Vínculo e Contexto:** O sistema identifica quais unidades estão vinculadas ao **Morador**. Ao abrir um chamado, o morador seleciona a unidade específica do problema.
+2. **Abertura e Especialidade:** O morador escolhe a categoria (ex: Elétrica). O sistema inicia automaticamente a contagem do **SLA (prazo)** definido para aquele tipo.
+3. **Triagem e Visibilidade:** O chamado aparece no dashboard apenas dos **Colaboradores** com a especialidade compatível. O **Administrador** acompanha todo o processo globalmente.
+4. **Gestão e Interação:** Colaborador, Morador e Admin utilizam os **Comentários** (que permitem textos e imagens) para comunicação oficial e registro auditável.
+5. **Conclusão:** Após o serviço, o chamado é marcado como **Concluído**. Ele permanece listado no sistema para consulta histórica com o status atualizado.
+6. **Manutenção da Base:** Caso necessário, o **Administrador** tem a permissão exclusiva para remover chamados concluídos da listagem oficial.
 
 ---
 
-
 ## 🗄️ Diagrama Relacional do Banco de Dados
 
-<img width="1833" height="1766" alt="Untitled (1)" src="https://github.com/user-attachments/assets/34220afc-aad9-4c40-8134-970058e36e60" />
+<img width="1833" height="1766" alt="Diagrama Entidade Relacionamento" src="[https://github.com/user-attachments/assets/34220afc-aad9-4c40-8134-970058e36e60](https://github.com/user-attachments/assets/34220afc-aad9-4c40-8134-970058e36e60)" />
 
+---
 
 ## 🚀 Instruções de Execução (Docker)
 
-Siga os passos abaixo para rodar o projeto em qualquer ambiente. É necessário ter apenas o Docker e o Docker Compose instalados.
+📌 **Pré-requisitos**
+Certifique-se de ter instalado em sua máquina:
+* Git
+* Docker e Docker Compose
+
+🛠️ **Passo a Passo**
 
 **1. Clone o repositório:**
 ```bash
@@ -88,12 +91,22 @@ cd dunnas_chamados
 docker compose build
 ```
 
-**3. Inicie os containers (Execução em background):**
+**3. Inicie a infraestrutura em background:**
+*Graças ao script de Entrypoint, o banco de dados será criado e as migrações serão executadas automaticamente.*
 ```bash
 docker compose up -d
 ```
 
-**4. Prepare o Banco de Dados (Criação, Migrações e Seeds):**
+**4. Popule o Banco de Dados (Seeds):**
+*Para popular o sistema recém-criado com os dados iniciais de teste, execute:*
+```bash
+docker compose exec web rails db:seed
+```
+
+### ⚠️ Solução de Problemas (Troubleshooting)
+
+Se o comando de `seed` falhar, ou se você testou o sistema e deseja **resetar o banco de dados** para o estado original de fábrica (apagando todos os chamados de teste criados), utilize o comando de reset completo:
+
 ```bash
 docker compose run --rm web rails db:drop db:create db:migrate db:seed
 ```
@@ -105,7 +118,7 @@ Abra seu navegador em: `http://localhost:3000`
 
 ## 🔐 Credenciais Iniciais
 
-Após rodar o comando de `seed` no passo anterior, o banco de dados será populado com dados iniciais para testes.
+Após rodar o comando de `seed` no passo anterior, o banco de dados será populado com os acessos abaixo:
 
 | Perfil | E-mail | Senha Padrão |
 | :--- | :--- | :--- |
@@ -113,7 +126,28 @@ Após rodar o comando de `seed` no passo anterior, o banco de dados será popula
 | **Colaborador** | `colaborador@dunnastecnologia.com.br` | `password123` |
 | **Morador** | `morador@condominio.com` | `password123` |
 
-*
+---
+
+## ⚙️ Arquitetura DevOps: Por baixo dos panos (Entrypoint)
+
+Para garantir uma **Experiência Zero Fricção** para quem clona o repositório, o projeto conta com um script de inicialização automatizado (`entrypoint.sh`).
+
+Em sistemas web tradicionais, o desenvolvedor precisa lembrar de rodar comandos de atualização de banco de dados sempre que baixa uma nova versão do código. Neste projeto, eliminamos essa necessidade de intervenção humana.
+
+**Como funciona o ciclo de vida do container:** Sempre que o comando `docker compose up` é acionado, o fluxo a seguir ocorre de forma 100% invisível ao usuário:
+
+* **Limpeza de PID:** O script deleta possíveis arquivos `server.pid` remanescentes de desligamentos abruptos, prevenindo travamentos de inicialização do Puma (servidor web).
+* **Auto-Migração (`db:prepare`):** O script interroga o banco de dados PostgreSQL. Se o banco não existir, ele o cria. Se houver novas migrations pendentes no código, ele as executa automaticamente.
+* **Passagem de Bastão:** Apenas após a infraestrutura confirmar que o banco está sincronizado com o código, o script passa o controle para o processo principal (Rails Server), liberando o acesso na porta 3000.
+
+Isso garante que o comando `docker compose up` seja a única coisa que o usuário ou a esteira de CI/CD precisa saber para rodar a aplicação em seu estado mais atual.
+
+---
+
+## ✅ Atendimento aos Requisitos e Boas Práticas (Checklist)
+
+* **Versionamento de Banco:** Todas as alterações estruturais foram feitas via Migrations, permitindo a recriação consistente do banco em qualquer ambiente.
+* **SLA e Auditoria:** O sistema calcula automaticamente o tempo de resolução (`resolved_at`) e mantém o histórico de interações via comentários, fechando o ciclo de vida real de um chamado com total rastreabilidade.
 
 ---
 
@@ -126,7 +160,7 @@ docker compose run --rm web bundle exec rspec
 ```
 
 **Troubleshooting de Testes:**
-Se o Rails acusar o erro `ActiveRecord::EnvironmentMismatchError` (indicando conflito entre o banco de desenvolvimento e testes), repare o ambiente executando:
+Se o Rails acusar o erro `ActiveRecord::EnvironmentMismatchError` (indicando conflito entre o banco de desenvolvimento e o de testes), repare o ambiente executando:
 ```bash
 docker compose run --rm web rails db:environment:set RAILS_ENV=test
 docker compose run --rm web rails db:test:prepare
