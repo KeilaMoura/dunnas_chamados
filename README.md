@@ -11,7 +11,7 @@
 
 ## 🎯 Sobre o Projeto e Problema Resolvido
 
-O **Dunnas Chamados** é um sistema de gerenciamento de tickets de manutenção focado na infraestrutura de condomínios e prédios residenciais/comerciais.
+O **Dunnas Chamados** é um sistema de gerenciamento de chamados de manutenção focado na infraestrutura de condomínios e prédios residenciais/comerciais.
 
 **O Problema:** A gestão de manutenções (elétrica, hidráulica, limpeza) em condomínios costuma ser caótica, feita através de grupos de WhatsApp, interfone ou cadernos de papel. Isso resulta em perda de histórico, atrasos no atendimento (SLA) e dificuldade em rastrear qual funcionário é responsável por qual tarefa.
 
@@ -46,6 +46,27 @@ O sistema possui controle de acesso baseado em três perfis (Roles):
 * **Acompanhamento de Tickets:** Fluxo de status (Aberto, Em Andamento, Concluído) atualizado em tempo real.
 
 ---
+
+## 🔍 Sistema de Filtros e Busca
+
+Para garantir uma gestão eficiente, o sistema conta com filtros inteligentes que permitem listar chamados de acordo com:
+* **Categoria:** Filtrar apenas problemas de Elétrica, Hidráulica, Limpeza, etc.
+* **Status:** Visualizar rapidamente o que está Aberto, Em Andamento ou Concluído.
+* **Localização (Blocos):** Agrupar chamados por blocos específicos do condomínio, facilitando a logística da equipe de manutenção.
+
+---
+
+## 🔄 Fluxo do Sistema (Ciclo de Vida do Chamado)
+
+1.  **Vínculo e Contexto:** O sistema identifica quais unidades estão vinculadas ao **Morador**. Ao abrir um chamado, o morador seleciona a unidade específica do problema.
+2.  **Abertura e Especialidade:** O morador escolhe a categoria (ex: Elétrica). O sistema inicia automaticamente a contagem do **SLA (prazo)** definido para aquele tipo.
+3.  **Triagem e Visibilidade:** O chamado aparece no dashboard apenas dos **Colaboradores** com a especialidade compatível. O **Administrador** acompanha todo o processo globalmente.
+4.  **Gestão e Interação:** Colaborador, Morador e Admin utilizam os **Comentários** que permitem textos e imagens para comunicação oficial e registro auditável.
+5.  **Conclusão:** Após o serviço, o chamado é marcado como **Concluído**. Ele permanece listado no sistema para consulta histórica com o status atualizado.
+6.  **Manutenção da Base:** Caso necessário, o **Administrador** tem a permissão exclusiva para remover chamados concluídos da listagem oficial.
+
+---
+
 
 ## 🗄️ Diagrama Relacional do Banco de Dados
 
