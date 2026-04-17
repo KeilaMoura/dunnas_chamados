@@ -1,0 +1,115 @@
+pt-BR:
+  administrate:
+    actions:
+      confirm: "Tem certeza?"
+      destroy: "Excluir"
+      edit: "Ver Detalhes"
+      edit_resource: "Editar %{name}"
+      show: "Ver"
+      new_resource: "Novo(a) %{name}"
+      back: "Voltar"
+    controller:
+      create:
+        success: "%{resource} foi criado(a) com sucesso."
+      update:
+        success: "%{resource} foi atualizado(a) com sucesso."
+      destroy:
+        success: "%{resource} foi excluído(a) com sucesso."
+    search:
+      clear: "Limpar pesquisa"
+      placeholder: "Pesquisar..."
+    navigation:
+      back_to_app: "Voltar para o App"
+  
+  activerecord:
+    models:
+      user: 
+        one: "Usuário"
+        other: "Usuários"
+      ticket: 
+        one: "Chamado"
+        other: "Chamados"
+      ticket_type: 
+        one: "Tipo de Chamado"
+        other: "Tipos de Chamados"
+      unit: 
+        one: "Unidade"
+        other: "Unidades"
+      block: 
+        one: "Bloco"
+        other: "Blocos"
+      user_ticket_type: 
+        one: "Especialidade"
+        other: "Especialidades"
+      status:
+        one: "Status"
+        other: "Status"
+      comment:
+        one: "Comentário"
+        other: "Comentários"
+      user_unit:
+        one: "Vínculo de Morador"
+        other: "Vínculos de Moradores"
+
+    attributes:
+      user:
+        name: "Nome"
+        cpf: "CPF"
+        email: "E-mail"
+        password: "Senha"
+        role: "Cargo"
+        role_translated: "Cargo"
+        units: "Unidades / Apartamentos"
+      ticket:
+        title: "Título"
+        description: "Descrição"
+        status: "Status"
+        unit: "Unidade"
+        created_at: "Aberto em"
+        completed_at: "Concluído em"
+        ticket_type: "Tipo de Chamado"
+        user: "Aberto por"
+        comments: "Comentários"
+        resolved_at: "Resolvido em"
+      comment:
+        content: "Conteúdo"
+        medias: "Anexos de Mídia"
+        user: "Autor"
+        ticket: "Chamado"
+      block:
+        name: "Nome do Bloco"
+        total_floors: "Total de Andares"
+        units_per_floor: "Unidades por Andar"
+        total_units: "Total de Unidades"
+      status:
+        name: "Nome do Status"
+        is_default: "É o status inicial automático?"
+        is_final: "Este status indica que foi concluído?"
+      user_unit:
+        user: "Morador"
+        unit: "Apartamento/Unidade"
+        created_at: "Criado em"
+      ticket_type:
+        title: "Categoria"
+        sla_hours: "Prazo de Resolução (SLA em horas)"
+        created_at: "Criado em"
+        users: "Responsável"
+        responsaveis_nomes: "Responsável"
+      unit:
+        number: "Número da Unidade"
+        block: "Bloco"
+        floor: "Andar"
+        tickets: "Chamados Deste Apto"
+        user_units: "Vínculos de Moradores"
+        users: "Moradores"
+      user_ticket_type:
+        user: "Colaborador"
+        ticket_type: "Especialidade"
+        created_at: "Criado em"
+
+    enums:
+      user:
+        role:
+          admin: "Administrador"
+          resident: "Morador"
+          collaborator: "Colaborador"

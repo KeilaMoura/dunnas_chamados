@@ -1,0 +1,114 @@
+
+
+
+/* Container Principal*/
+.login-split-wrapper {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Lado Esquerdo com gradiente visual */
+.login-visual-side {
+  flex: 1; /* Ocupa 50% ou mais */
+  background: linear-gradient(135deg, var(--azul-carvao) 0%, var(--blue-slate) 50%, var(--light-blue) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 40px;
+  text-align: center;
+}
+
+/* Lado Direito com o formulário */
+.login-form-side {
+  width: 450px; /* Largura fixa para o formulário */
+  background-color: var(--ghost-white);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 60px;
+}
+
+.login-box {
+  max-width: 330px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.login-header h2 {
+  color: var(--azul-carvao);
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.login-header p {
+  color: var(--blue-slate);
+  margin-bottom: 30px;
+}
+
+/* Inputs*/
+.form-field { margin-bottom: 20px; }
+
+.form-field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--azul-carvao);
+}
+
+.input-style {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--light-blue);
+  border-radius: 8px;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.input-style:focus {
+  outline: none;
+  border-color: var(--blue-slate);
+  box-shadow: 0 0 0 4px rgba(88, 111, 124, 0.1);
+}
+
+/* Botão de Ação */
+.btn-login {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--azul-carvao);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
+}
+
+.btn-login:hover {
+  background-color: var(--preto);
+  transform: translateY(-1px);
+}
+
+.login-links {
+  margin-top: 25px;
+  text-align: center;
+}
+
+.login-links a {
+  color: var(--blue-slate);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.login-links a:hover { text-decoration: underline; }
+
+@media (max-width: 768px) {
+  .login-visual-side { display: none; }
+  .login-form-side { width: 100%; padding: 40px; }
+}

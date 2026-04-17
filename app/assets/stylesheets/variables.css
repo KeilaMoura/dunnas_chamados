@@ -1,0 +1,11 @@
+:root {
+  --preto: #000000;
+  --azul-carvao: #2F4550;
+  --blue-slate: #586F7C;
+  --light-blue: #B8DBD9;
+  --ghost-white: #F4F4F9;
+  
+  /* Sombras e Bordas */
+  --sombra-suave: 0 10px 25px rgba(0, 0, 0, 0.05);
+  --raio-borda: 8px;
+}

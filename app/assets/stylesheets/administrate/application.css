@@ -1,0 +1,278 @@
+
+/*
+ *= require_self
+ */
+
+/* Variáveis globais de cores  */
+:root {
+  --azul-carvao: #2F4550;
+  --blue-slate: #586F7C;
+  --light-blue: #B8DBD9;
+  --ghost-white: #F4F4F9;
+}
+
+/* --- 1. FUNDAÇÃO --- */
+body {
+  background: var(--ghost-white) !important;
+  font-family: 'Inter', sans-serif !important;
+  margin: 0 !important;
+  color: var(--azul-carvao) !important;
+}
+
+
+.app-container {
+  display: flex !important;
+  height: 100vh !important; 
+  padding: 16px !important;
+  gap: 16px !important;
+  box-sizing: border-box !important;
+}
+
+/* --- 2. BARRA LATERAL --- */
+.navigation {
+  flex: 0 0 260px !important; /* Largura fixa de 260px */
+  background: var(--azul-carvao) !important;
+  border-radius: 24px !important;
+  padding: 32px 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  /* Space-between empurra os links para cima e o logout para baixo */
+  justify-content: space-between !important; 
+  height: calc(100vh - 32px) !important;
+  box-sizing: border-box !important;
+}
+
+/* Lista de links de navegação */
+.navigation__links {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+}
+
+/* Estilo padrão dos links do menu */
+.navigation a {
+  display: block !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  text-decoration: none !important;
+  padding: 12px 16px !important;
+  border-radius: 12px !important;
+  font-weight: 500 !important;
+  transition: background 0.2s ease !important;
+}
+
+/* Estado de hover e link ativo */
+.navigation a:hover, 
+.navigation a.navigation__link--active {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+.navigation .button--logout {
+  width: 100% !important;
+  background: rgba(230, 57, 70, 0.1) !important;
+  color: #fca5a5 !important;
+  border: 1px solid rgba(230, 57, 70, 0.2) !important;
+  padding: 12px !important;
+  border-radius: 12px !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  margin-top: auto !important;
+}
+
+/* --- 3. CONTEÚDO PRINCIPAL --- */
+.main-content {
+  flex: 1 !important; /* Ocupa todo o espaço restante da tela */
+  background: white !important;
+  border-radius: 24px !important;
+  padding: 40px !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03) !important;
+  overflow-y: auto !important; /* Permite scroll interno se o conteúdo for longo */
+  height: calc(100vh - 32px) !important;
+  box-sizing: border-box !important;
+}
+
+/* --- 4. HEADER (TÍTULO, BUSCA E BOTÃO NOVO) --- */
+.main-content__header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 40px !important;
+  width: 100% !important;
+  gap: 30px !important;
+  flex-wrap: nowrap !important;
+}
+
+.main-content__header h1 {
+  margin: 0 !important;
+  font-size: 1.8rem !important;
+  flex-shrink: 0 !important;
+}
+
+/* Barra de pesquisa arredondada */
+.search {
+  flex: 1 !important;
+  max-width: 450px !important;
+  display: flex !important;
+  align-items: center !important;
+  background: var(--ghost-white) !important;
+  padding: 10px 16px !important;
+  border-radius: 50px !important;
+  border: 1px solid #E2E8F0 !important;
+  margin: 0 auto !important;
+}
+
+.search__input {
+  flex: 1 !important;
+  border: none !important;
+  background: transparent !important;
+  margin: 0 10px !important;
+  outline: none !important;
+  font-size: 0.95rem !important;
+  color: var(--azul-carvao) !important;
+}
+
+/* Botão de ação principal  */
+.main-content__header a.button {
+  background: var(--azul-carvao) !important;
+  color: #ffffff !important;
+  padding: 12px 24px !important;
+  border-radius: 12px !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+  display: inline-block !important;
+  box-shadow: 0 4px 10px rgba(47, 69, 80, 0.1) !important;
+}
+
+/* Estilização de ícones SVG dentro do dashboard */
+svg {
+  width: 18px !important;
+  height: 18px !important;
+  fill: var(--blue-slate) !important;
+  flex-shrink: 0 !important;
+}
+
+/* --- 5. TABELA DE DADOS --- */
+table.table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+}
+
+.table th, .table td {
+  text-align: left !important;
+  padding: 16px 20px !important;
+}
+
+.table th {
+  color: var(--blue-slate) !important;
+  text-transform: uppercase !important;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.05em !important;
+  border-bottom: 2px solid var(--ghost-white) !important;
+}
+
+.table td {
+  border-bottom: 1px solid var(--ghost-white) !important;
+  font-size: 0.95rem !important;
+}
+
+/* Links de ação dentro da tabela (Ver, Editar) */
+.table a, 
+.cell-data a, 
+.table th a {
+  color: var(--azul-carvao) !important;
+  text-decoration: none !important;
+  font-weight: 500 !important;
+}
+
+.table a:hover {
+  color: var(--blue-slate) !important;
+}
+
+.table a.action-show {
+  margin-right: 15px !important;
+  color: var(--blue-slate) !important;
+}
+
+/* Botão de exclusão (vermelho para alerta) */
+.table a[data-method="delete"] {
+  background: transparent !important;
+  color: #EF4444 !important;
+  padding: 0 !important;
+  font-weight: 600 !important;
+  border: none !important;
+}
+
+/* --- 6. FORMULÁRIOS (CRIAR/EDITAR) --- */
+.field-unit {
+  border: none !important;
+  margin-bottom: 24px !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.field-unit__label, 
+.field-unit label {
+  font-weight: 600 !important;
+  color: var(--blue-slate) !important;
+  margin-bottom: 8px !important;
+  font-size: 0.9rem !important;
+  text-transform: capitalize !important;
+}
+
+/* Campos de entrada de dados */
+.field-unit__field input[type="text"],
+.field-unit__field input[type="email"],
+.field-unit__field input[type="password"],
+.field-unit__field input[type="number"],
+.field-unit__field select,
+.field-unit__field textarea {
+  width: 100% !important;
+  max-width: 500px !important;
+  padding: 12px 16px !important;
+  border-radius: 12px !important;
+  border: 1px solid #E2E8F0 !important;
+  background: #ffffff !important;
+  color: var(--azul-carvao) !important;
+  font-size: 1rem !important;
+  outline: none !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+  box-sizing: border-box !important;
+}
+
+/* Feedback visual de foco no input */
+.field-unit__field input:focus, 
+.field-unit__field select:focus, 
+.field-unit__field textarea:focus {
+  border-color: var(--blue-slate) !important;
+  box-shadow: 0 0 0 3px rgba(88, 111, 124, 0.1) !important;
+}
+
+/* Rodapé do formulário */
+.form-actions {
+  margin-top: 32px !important;
+  padding-top: 24px !important;
+  border-top: 1px solid #E2E8F0 !important;
+}
+
+/* Botão de submissão (Salvar) */
+input[type="submit"] {
+  background: var(--azul-carvao) !important;
+  color: white !important;
+  padding: 14px 28px !important;
+  border-radius: 12px !important;
+  border: none !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  cursor: pointer !important;
+  transition: background 0.2s, transform 0.1s !important;
+}
+
+input[type="submit"]:hover {
+  background: var(--blue-slate) !important;
+  transform: translateY(-2px) !important;
+}
+
+.units-container-field {
+  display: none;
+}

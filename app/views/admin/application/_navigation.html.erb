@@ -1,0 +1,15 @@
+<nav class="navigation" role="navigation">
+  <%# Botão de Sair em Destaque %>
+  <div style="padding: 15px; border-bottom: 1px solid #e0e0e0; margin-bottom: 10px;">
+    <%= button_to "Sair", main_app.destroy_user_session_path, method: :delete, style: "background-color: #dc3545; color: white; border: none; padding: 10px; width: 100%; border-radius: 20px; cursor: pointer; font-weight: bold; text-align: center; font-size: 14px;" %>
+  </div>
+
+  
+  <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
+    <%= link_to(
+      display_resource_name(resource.to_s),
+      [namespace, resource.path.to_sym], # <--- O .to_sym AQUI resolve o erro!
+      class: "navigation__link navigation__link--#{nav_link_state(resource.to_s)}"
+    ) %>
+  <% end %>
+</nav>

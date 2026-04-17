@@ -1,0 +1,262 @@
+
+/*estilos principal das telas de morador e colaborador.*/
+
+/*
+ *= require variables
+ *= require login
+ *= require_self
+ */
+
+/* Definição da paleta de cores principal */
+:root {
+  --azul-carvao: #2F4550;
+  --blue-slate: #586F7C;
+  --ghost-white: #F4F4F9;
+}
+
+/* 2. ESTILOS GERAIS  */
+body {
+  background-color: var(--ghost-white) !important;
+  font-family: 'Inter', sans-serif !important;
+  margin: 0;
+}
+
+/* 3. NAVEGAÇÃO SUPERIOR  */
+.top-navbar {
+  background: var(--blue-slate) !important;
+  color: white !important;
+  padding: 15px 40px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.navbar-brand {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.navbar-user-zone {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between;
+}
+
+/* Botão específico para encerramento de sessão */
+.button--logout {
+  background: var(--blue-slate) !important;
+  color: rgb(255, 255, 255) !important;
+  padding: 10px 20px !important;
+  border-radius: 18px !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  margin-left: 20px;
+}
+
+/* 4. LAYOUT DE CONTEÚDO */
+.main-content {
+  padding: 40px !important;
+}
+
+.main-content__header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 30px !important;
+}
+
+.button {
+  background: var(--azul-carvao) !important;
+  color: white !important;
+  padding: 10px 20px !important;
+  border-radius: 20px !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+}
+
+/* 5. TABELAS DE LISTAGEM */
+.table {
+  width: 100% !important;
+  background: white !important;
+  border-collapse: collapse !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  text-align: center !important;
+}
+
+.table th {
+  text-align: center !important;
+  padding: 15px !important;
+  background: #f8fafc !important;
+  color: var(--blue-slate) !important;
+}
+
+.table td {
+  padding: 15px !important;
+  border-top: 1px solid #eee !important;
+}
+
+/* Visualização detalhada do chamado --- */
+.main-content {
+  max-width: 900px; /* Mantém a leitura confortável */
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+/* Cabeçalho da página de detalhes */
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  margin-top: 10px;
+}
+
+.back-link {
+  background: var(--azul-carvao);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.ticket-header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--azul-carvao);
+  margin: 0;
+  margin-top: 40px;
+}
+
+/* Etiqueta de status (Aberto, Em andamento, Resolvido) */
+.status-tag {
+  padding: 6px 16px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--azul-carvao);
+  margin-top: 40px;
+}
+
+/* 6. BLOCOS DE CONTEÚDO */
+.content-section {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 40px;
+  margin-bottom: 30px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
+}
+
+.section-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #94a3b8;
+  margin-bottom: 24px;
+  display: block;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 12px;
+}
+
+/* Grid para exibição de metadados do chamado */
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 32px;
+}
+
+.data-item label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.data-item p {
+  font-size: 1.05rem;
+  color: #1e293b;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Estilo para textos longos de descrição */
+.description-text {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #334155;
+  white-space: pre-wrap;
+}
+
+/* 7. TIMELINE DE MENSAGENS */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  position: relative;
+  padding-left: 20px;
+}
+
+/* Linha vertical decorativa */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #f1f5f9;
+}
+
+/* Marcadores de evento na timeline */
+.timeline-item {
+  position: relative;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 8px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  border: 2px solid #fff;
+}
+
+/* Balão de comentário */
+.comment-bubble {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #f1f5f9;
+}
+
+/* Destaque para comentários do próprio usuário logado */
+.comment--self {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+}
+
+/* 8. ENTRADA DE DADOS - Estilização do editor de resposta */
+.text-area {
+  width: 100%;
+  min-height: 120px;
+  border: 2px solid #f1f5f9;
+  border-radius: 16px;
+  padding: 20px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+  background: #f8fafc;
+}
+
+.text-area:focus {
+  outline: none;
+  border-color: var(--blue-slate);
+  background: #fff;
+}

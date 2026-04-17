@@ -1,0 +1,64 @@
+ <%# Página de Listagem de Chamados para o Administrador %>
+    
+    <% content_for(:title) do %>
+
+      
+      <%= display_resource_name(page.resource_name) %>
+    <% end %>
+
+    <header class="main-content__header" role="banner">
+      <h1 class="main-content__page-title" id="page-title">
+        <%= content_for(:title) %>
+      </h1>
+
+      <% if show_search_bar %>
+        <%= render(
+          "search",
+          search_term: search_term,
+          resource_name: display_resource_name(page.resource_name)
+        ) %>
+      <% end %>
+
+      
+      <div>
+        <%= link_to "Novo(a) Chamado", new_admin_ticket_path, class: "button" %>
+      </div>
+    </header>
+
+    <section class="main-content__body main-content__body--flush">
+  
+      <%# BARRA DE FILTROS %>
+      <div style="padding: 15px 20px; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; margin-bottom: 20px;">
+        <%= form_with url: request.path, method: :get, local: true, style: "display: flex; gap: 15px; align-items: center; flex-wrap: wrap;" do |f| %>
+
+          <%= f.collection_select :status_id, Status.all, :id, :name, 
+              { include_blank: "Todos os status", selected: params[:status_id] }, 
+              { style: "padding: 8px 12px; border-radius: 4px; border: 1px solid #cbd5e1; outline: none; background: white; min-width: 150px;" } %>
+
+          <%= f.collection_select :ticket_type_id, TicketType.all, :id, :title, 
+              { include_blank: "Todos os tipos", selected: params[:ticket_type_id] }, 
+              { style: "padding: 8px 12px; border-radius: 4px; border: 1px solid #cbd5e1; outline: none; background: white; min-width: 150px;" } %>
+
+          <%= f.collection_select :block_id, Block.all.order(:name), :id, :name, 
+              { include_blank: "Todos os blocos", selected: params[:block_id] }, 
+              { style: "padding: 8px 12px; border-radius: 4px; border: 1px solid #cbd5e1; outline: none; background: white; min-width: 150px;" } %>
+
+        <%= f.button "Filtrar", style: "display: inline-flex; align-items: center; justify-content: center; height: 38px; width: 100px; background-color: #334155; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; font-family: inherit; line-height: 1; padding: 0; margin: 0; box-sizing: border-box;" %>
+
+        <%= link_to "Limpar", request.path, style: "display: inline-flex; align-items: center; justify-content: center; height: 38px; width: 100px; background-color: #334155; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; font-family: inherit; line-height: 1; text-decoration: none; padding: 0; margin: 0; box-sizing: border-box;" %>
+      
+        <% end %>
+      </div>
+
+        <%# Renderiza a Tabela Padrão do Administrate %>
+        <%= render(
+          "collection",
+          collection_presenter: page,
+          collection_field_name: resource_name,
+          page: page,
+          resources: resources,
+          table_title: "page-title"
+        ) %>
+
+        <%= paginate resources, param_name: '_page' %>
+      </section>

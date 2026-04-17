@@ -1,0 +1,79 @@
+
+<%# Página de listagem de chamados para o morador e colaborador %>
+
+<div class="main-content">
+
+  <header class="main-content__header">
+    <h1>Painel de Chamados</h1>
+    <%# TRAVA DE SEGURANÇA: Só mostra o botão se o usuário NÃO for colaborador %>
+    <% unless current_user.collaborator? %>
+      <%= link_to "Abrir Novo Chamado", new_ticket_path, class: "button" %>
+    <% end %>
+    
+  </header>
+
+  <%# Barra de Filtros %>
+
+    <div style="margin-bottom: 20px; display: flex; align-items: center;">
+     <%= form_with url: request.path, method: :get, local: true, style: "display: flex; gap: 15px; align-items: center; flex-wrap: wrap; width: 100%;" do |f| %>
+
+       <%# Dropdown de Status %>
+        <%= f.collection_select :status_id, Status.all, :id, :name, 
+        { include_blank: "Todos os status", selected: params[:status_id] }, 
+        { style: "padding: 8px 12px; border-radius: 6px; border: 1px solid #d1d5db; outline: none; background: white;" } %>
+
+        <%# Dropdown de Tipo %>
+        <%= f.collection_select :ticket_type_id, TicketType.all, :id, :title, 
+        { include_blank: "Todos os tipos", selected: params[:ticket_type_id] }, 
+        { style: "padding: 8px 12px; border-radius: 6px; border: 1px solid #d1d5db; outline: none; background: white;" } %>
+
+        <%# Dropdown de Bloco %>
+       <%= f.collection_select :block_id, @filter_blocks, :id, :name, 
+        { include_blank: "Todos os blocos", selected: params[:block_id] }, 
+        { style: "padding: 8px 12px; border-radius: 6px; border: 1px solid #d1d5db; outline: none; background: white;" } %>
+        <%# Botão Filtrar %>
+  
+       <%= f.button "Filtrar", style: "display: inline-flex; align-items: center; justify-content: center; height: 38px; width: 100px; background-color: #334155; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; font-family: inherit; line-height: 1; padding: 0; margin: 0; box-sizing: border-box;" %>
+
+      <%= link_to "Limpar", request.path, style: "display: inline-flex; align-items: center; justify-content: center; height: 38px; width: 100px; background-color: #334155; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; font-family: inherit; line-height: 1; text-decoration: none; padding: 0; margin: 0; box-sizing: border-box;" %>
+    
+
+  <% end %>
+</div>
+
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Título</th>
+              <th>Unidade</th>
+              <th>Tipo</th>
+              <th>Status</th>
+              <th>Aberto em</th>
+              <th style="text-align: center;">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @tickets.each do |ticket| %>
+              <tr>
+                <td>#<%= ticket.id %></td>
+                <td><strong><%= ticket.title %></strong></td>
+                <td><%= ticket.unit.full_name %></td>
+                <td><%= ticket.ticket_type.title %></td>
+                <td>
+                  <%# Aplicando a tag de status colorida %>
+                  <span class="status-tag <%= ticket.status.name.parameterize %>">
+                    <%= ticket.status.name %>
+                  </span>
+                </td>
+                <td><%= ticket.created_at.strftime("%d/%m/%Y às %H:%M") %></td>
+                <td style="text-align: center;">
+                  <%=  link_to "Ver Detalhes", ticket_path(ticket), class: "action-show" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>

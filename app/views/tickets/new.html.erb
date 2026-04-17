@@ -1,0 +1,133 @@
+
+<%# Página de criação de chamado exclusiva do administrador %>
+
+<h1>Abrir Novo Chamado</h1>
+
+<%= form_with(model: @ticket, local: true, html: { multipart: true }) do |form| %>
+
+    <%# Área Exclusiva do Administrador %>
+    <% if current_user.admin? %>
+      <div style="background-color: #f8f9fa; padding: 15px; border: 1px solid #dee2e6; border-radius: 4px; margin-bottom: 20px;">
+        <h4 style="margin-top: 0; color: #333;">Área do Administrador</h4>
+        <p style="font-size: 0.9em; color: #666;">Para chamados retroativos, selecione o morador abaixo. Se deixar em branco, o chamado será seu.</p>
+        
+        <%= form.label :user_id, "Abrir chamado em nome de:" %><br>
+        <%# Busca apenas usuários que são moradores (resident) %>
+        <%= form.collection_select :user_id, User.where(role: 'resident'), :id, :name, 
+            { prompt: "Selecione o morador (Opcional)" }, 
+            { style: "width: 100%; padding: 8px; border-radius: 4px; margin-top: 5px;" } %>
+      </div>
+    <% end %>
+
+    <%# Exibição de Erros de Validação %>
+    <% if @ticket.errors.any? %>
+      <div style="color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
+        <strong style="display: block; margin-bottom: 10px;">Não foi possível salvar o chamado:</strong>
+        <ul style="margin: 0; padding-left: 20px;">
+          <% @ticket.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+      <%# Campos Padrão (Vistos por Todos) %>
+      <div style="margin-bottom: 15px;">
+        <%= form.label :unit_id, "Escolha a Unidade/Apartamento:" %><br>
+        <%= form.collection_select :unit_id, @units, :id, :full_name, { prompt: "Selecione a unidade" }, { style: "width: 100%; padding: 8px; margin-top: 5px;" } %>
+      </div>
+
+      <div style="margin-bottom: 15px;">
+        <%= form.label :ticket_type_id, "Tipo de Problema" %><br>
+        <%= form.collection_select :ticket_type_id, TicketType.all, :id, :title, { prompt: "Selecione o tipo..." }, { style: "width: 100%; padding: 8px; margin-top: 5px;" } %>
+      </div>
+
+      <div style="margin-bottom: 15px;">
+        <%= form.label :title, "Título do Chamado" %><br>
+        <%= form.text_field :title, style: "width: 100%; padding: 8px; margin-top: 5px;" %>
+      </div>
+
+      <div style="margin-bottom: 15px;">
+        <%= form.label :description, "Descrição detalhada" %><br>
+        <%= form.text_area :description, rows: 5, style: "width: 100%; padding: 8px; margin-top: 5px;" %>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <%= form.label :attachments, "Anexar Arquivos (Fotos/Documentos)" %><br>
+        <div style="margin-top: 5px;">
+          <%= form.file_field :attachments, multiple: true %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.submit "Abrir Chamado", style: "background-color: #0d6efd; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;" %>
+      </div>
+
+    <% end %>
+
+    <br>
+    <hr style="border: 0; border-top: 1px solid #ccc; margin: 20px 0;">
+
+
+    
+    <%# SCRIPT DE FILTRO DINÂMICO PARA ADMINS    %>
+  
+    
+    <% if current_user.admin? %>
+      <% 
+        # O Rails cria um dicionário nos bastidores: { 1 => [{id: 5, nome: "Apto 101"}], ... }
+        mapa_unidades = {}
+        User.where(role: 'resident').includes(:units).each do |user|
+          mapa_unidades[user.id] = user.units.map { |u| { id: u.id, name: u.full_name } }
+        end
+        todas_unidades = @units.map { |u| { id: u.id, name: u.full_name } }
+      %>
+      
+      <script>
+        function configurarFiltroUnidades() {
+          const selectMorador = document.getElementById("ticket_user_id");
+          const selectUnidade = document.getElementById("ticket_unit_id");
+          
+          // Se não achar os campos na tela, aborta para não dar erro
+          if (!selectMorador || !selectUnidade) return;
+
+          // Passa os dados do Ruby para o JavaScript
+          const mapaUnidades = <%= raw mapa_unidades.to_json %>;
+          const todasUnidades = <%= raw todas_unidades.to_json %>;
+
+          // Fica escutando qualquer mudança no campo de Morador
+          selectMorador.addEventListener("change", function() {
+            const moradorId = this.value;
+            
+            // Limpa as unidades antigas
+            selectUnidade.innerHTML = '<option value="">Selecione a unidade</option>';
+            
+            // Descobre quais unidades deve mostrar agora
+            let unidadesParaMostrar = todasUnidades;
+            if (moradorId && mapaUnidades[moradorId]) {
+              unidadesParaMostrar = mapaUnidades[moradorId];
+            }
+
+            // Preenche o campo de unidades com as opções filtradas
+            unidadesParaMostrar.forEach(function(unidade) {
+              const option = document.createElement("option");
+              option.value = unidade.id;
+              option.text = unidade.name;
+              selectUnidade.appendChild(option);
+            });
+          });
+        }
+
+        // Executa o script garantindo compatibilidade com o Turbo do Rails
+        document.addEventListener("turbo:load", configurarFiltroUnidades);
+        document.addEventListener("DOMContentLoaded", configurarFiltroUnidades);
+        configurarFiltroUnidades();
+      </script>
+    <% end %>
+
+    <%# Botão Dinâmico de Voltar %>
+    <% if current_user.admin? %>
+      <%= link_to "Cancelar e Voltar para o Painel", admin_root_path, style: "color: #6c757d; text-decoration: none;" %>
+    <% else %>
+      <%= link_to "Cancelar e Voltar para Início", root_path, style: "color: #6c757d; text-decoration: none;" %>
+    <% end %>

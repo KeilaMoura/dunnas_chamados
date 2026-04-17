@@ -1,0 +1,25 @@
+
+ddefault: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: db
+  username: postgres
+  password: 123456
+
+
+development:
+  <<: *default
+  database: dunnas_chamados_development
+
+
+test:
+  <<: *default
+  database: dunnas_chamados_test
+
+
+production:
+  <<: *default
+  database: dunnas_chamados_production
+  username: dunnas_chamados
+  password: <%= ENV["DUNNAS_CHAMADOS_DATABASE_PASSWORD"] %>

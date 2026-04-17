@@ -1,0 +1,50 @@
+<div class="login-split-wrapper">
+  
+  <div class="login-visual-side">
+    <h1 style="font-size: 3rem; margin-bottom: 20px;">Dunnas<br>Tecnologia</h1>
+    <p style="font-size: 1.2rem; opacity: 0.9;">Gestão inteligente e eficiente<br>para o seu condomínio.</p>
+  </div>
+
+  <div class="login-form-side">
+    <div class="login-box">
+      <div class="login-header">
+        <h2>Entrar</h2>
+        <p>Acesse sua conta para gerenciar os chamados.</p>
+      </div>
+      
+      <% if notice %>
+        <p style="color: green; font-weight: bold; text-align: center;"><%= notice %></p>
+      <% end %>
+
+      <% if alert %>
+        <p style="color: red; font-weight: bold; text-align: center;"><%= alert %></p>
+      <% end %>
+
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="form-field">
+          <%= f.label :email, "E-mail" %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input-style", placeholder: "exemplo@email.com" %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :password, "Senha" %>
+          <%= f.password_field :password, autocomplete: "current-password", class: "input-style", placeholder: "••••••••" %>
+        </div>
+
+        <% if devise_mapping.rememberable? %>
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 0.9rem; color: var(--blue-slate);">
+            <%= f.check_box :remember_me %>
+            <%= f.label :remember_me, "Lembrar de mim" %>
+          </div>
+        <% end %>
+
+        <div class="actions">
+          <%= f.submit "Entrar", class: "btn-login" %>
+        </div>
+      <% end %>
+
+      
+    </div>
+  </div>
+
+</div>

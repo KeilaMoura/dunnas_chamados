@@ -1,0 +1,123 @@
+<style>
+  /* Estilização dos links nos cabeçalhos da tabela (Ordenação) */
+  .table th a {
+    color: #586F7C !important;
+    text-decoration: none !important;
+    text-transform: uppercase !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+  }
+  
+  /* Estilização das células de dados e links internos */
+  .table td, .table td a {
+    color: #2F4550 !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+  }
+
+  /* Container flex para alinhar os botões de ação à direita */
+  .action-buttons {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 10px !important;
+  }
+
+  /* Botão "Ver Detalhes" com estilo de tag/pílula discreta */
+  .btn-ver {
+    color: #586F7C !important;
+    background: #F4F4F9 !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+  }
+
+  /* Botão de exclusão com destaque visual em vermelho (Alerta) */
+  .btn-excluir {
+    color: #EF4444 !important;
+    background: transparent !important;
+    border: 1px solid #FCA5A5 !important;
+    padding: 5px 10px !important;
+    border-radius: 6px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+  }
+</style>
+
+<table aria-labelledby="<%= table_title %>" class="table">
+  <thead>
+    <tr>
+      <%# Renderiza dinamicamente as colunas baseadas no Dashboard do Administrate %>
+      <% collection_presenter.attribute_types.each do |attr_name, attr_type| %>
+        <th class="cell-label" scope="col">
+          <%= link_to(sanitized_order_params(page, collection_field_name).merge(
+            collection_presenter.order_params_for(attr_name, key: collection_field_name)
+          )) do %>
+            <%= resource_class.human_attribute_name(attr_name) %>
+          <% end %>
+        </th>
+      <% end %>
+      
+      <%# Coluna fixa para as ações (Ver, Excluir, etc) %>
+      <th scope="col" style="text-align: right; width: 200px; padding-bottom: 16px;">
+        <span style="color: #586F7C; text-transform: uppercase; font-size: 0.75rem; font-weight: 700;">AÇÕES</span>
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% resources.each do |resource| %>
+      <tr class="js-table-row" style="border-bottom: 1px solid #F1F5F9;">
+        
+        <%# Itera sobre os atributos de cada registro para preencher as células %>
+        <% collection_presenter.attributes_for(resource).each do |attribute| %>
+          <td class="cell-data" style="padding: 16px 20px;">
+            <%= render_field attribute %>
+          </td>
+        <% end %>
+
+        <%# Lógica customizada de botões de ação %>
+        <td style="text-align: right; white-space: nowrap; padding: 16px 20px;">
+          <% begin %>
+            <div class="action-buttons">
+              
+              <%# --- REGRA DO VER DETALHES --- %>
+              <% if resource.class.name == "Ticket" %>
+                <%# Chamados possuem uma visualização rica (Timeline/Comentários) fora do Admin %>
+                <%= link_to "Ver / Comentar", main_app.ticket_path(resource), class: "btn-ver" %>
+              <% else %>
+                <%# Outros modelos abrem a visualização padrão do Dashboard Admin %>
+                <%= link_to "Ver Detalhes", [namespace, resource], class: "btn-ver" %>
+              <% end %>
+
+              <%# --- LOGICA CONDICIONAL DE EXCLUSÃO/REMOÇÃO --- %>
+              
+              <%# Caso 1: Desvinculação de Colaborador (TicketType) %>
+              <% if resource.class.name == "User" && params[:controller] == "admin/ticket_types" %>
+                <%= link_to "Remover", remove_user_admin_ticket_type_path(id: params[:id], user_id: resource.id), 
+                    class: "btn-excluir", 
+                    data: { turbo_method: :delete, turbo_confirm: "Deseja remover este responsável desta categoria?" } %>
+              
+              <%# Caso 2: Unidades (Proteção contra exclusão acidental) %>
+              <% elsif resource.class.name == "Unit" %>
+                <%# Unidades não podem ser excluídas por esta lista %>
+                
+              <%# Caso 3: Exclusão padrão para os demais modelos %>
+              <% else %>
+                <%= link_to "Excluir", [namespace, resource], 
+                    class: "btn-excluir", 
+                    data: { turbo_method: :delete, turbo_confirm: "CUIDADO: Tem certeza que deseja apagar este registro do banco de dados?" } %>
+              <% end %>
+            </div>
+
+          <% rescue NoMethodError, ActionController::UrlGenerationError %>
+            <%# Tratamento de erro para evitar que a página quebre caso uma rota não exista %>
+            <span style="color: #ccc; font-size: 0.8rem;">Link indisponível</span>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

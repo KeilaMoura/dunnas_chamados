@@ -1,0 +1,149 @@
+<div class="main-content">
+  <%# 1. HEADER: Título, Status e Navegação Inteligente %>
+  <header class="ticket-header">
+    <div>
+      <%# Lógica de Redirecionamento: Garante que o usuário volte para o painel correto conforme seu perfil %>
+      <% if current_user.admin? %>
+        <%= link_to "Voltar para o Painel Admin", admin_tickets_path, class: "back-link", style: "font-weight: bold; color: #white;" %>
+      <% else %>
+        <%= link_to "Voltar", tickets_path, class: "back-link" %>
+      <% end %>
+      
+      <h1 style="margin-top: 20px;"><%= @ticket.title %></h1>
+    </div>
+
+    <%# Tag visual do Status (ex: Aberto, Em Andamento) %>
+    <span class="status-tag <%= @ticket.status.name.parameterize %>">
+      <%= @ticket.status.name %>
+    </span>
+    
+    <%# Alerta de Conclusão: Só aparece se o chamado estiver finalizado %>
+    <% if @ticket.completed_at.present? %>
+      <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; padding: 15px; border-radius: 8px; margin-top: 20px;">
+        <strong style="color: #16a34a;">✅ Chamado Concluído</strong>
+        <p style="margin: 5px 0 0 0; color: #15803d;">
+          Finalizado em: <%= @ticket.completed_at.strftime("%d/%m/%Y às %H:%M") %>
+        </p>
+      </div>
+    <% end %>
+  </header>
+
+  <%# 2. INFORMAÇÕES BÁSICAS: Resumo técnico do chamado %>
+  <section class="content-section">
+    <span class="section-title">Detalhes da Abertura</span>
+    <div class="data-grid">
+      <div class="data-item">
+        <label>Morador</label>
+        <p><%= @ticket.user.name || @ticket.user.email %></p>
+      </div>
+      <div class="data-item">
+        <label>Unidade</label>
+        <p><%= @ticket.unit.full_name %></p>
+      </div>
+      <div class="data-item">
+        <label>Tipo / SLA</label>
+        <p><%= @ticket.ticket_type.title %> (<%= @ticket.ticket_type.sla_hours %>h)</p>
+      </div>
+    </div>
+  </section>
+
+  <%# 3. DESCRIÇÃO: Texto detalhado do problema e anexos %>
+  <section class="content-section">
+    <span class="section-title">Descrição do Problema</span>
+    <div class="description-text">
+      <%= simple_format @ticket.description %>
+    </div>
+    
+    <%# Listagem de arquivos anexados (imagens ou documentos) %>
+    <% if @ticket.attachments.attached? %>
+      <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #f8fafc;">
+        <label style="font-size: 0.7rem; font-weight: bold; color: #94a3b8;">ANEXOS</label>
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+          <% @ticket.attachments.each do |attachment| %>
+            <%= link_to attachment.filename, url_for(attachment), target: "_blank", class: "attachment-pill" %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </section>
+
+  <%# 4. GESTÃO ADMINISTRATIVA: Espaço exclusivo para Admin e Colaboradores mudarem o status %>
+  <% if current_user.admin? || current_user.collaborator? %>
+    <section class="content-section" style="border: 1px dashed #cbd5e1; background: #fcfcfd;">
+      <span class="section-title">Ações Administrativas</span>
+      <%= form_with(model: @ticket, local: true, class: "data-grid") do |form| %>
+        <div class="data-item">
+          <label>Mudar Status</label>
+          <%= form.collection_select :status_id, Status.all, :id, :name, {}, {class: "select-input"} %>
+        </div>
+        <div style="display: flex; align-items: flex-end;">
+          <%= form.submit "Atualizar Chamado", class: "button button--small" %>
+        </div>
+      <% end %>
+    </section>
+  <% end %>
+
+  <%# 5. INTERAÇÕES: Histórico de chat e novas mensagens %>
+  <section class="content-section">
+    <span class="section-title">Interações e Comentários</span>
+    
+    <%# Timeline de mensagens %>
+    <div class="timeline">
+      <% @ticket.comments.order(created_at: :asc).each do |comment| %>
+        <div class="timeline-item">
+          <%# Aplica estilo diferente se o comentário for do próprio usuário (lado direito/cor diferente) %>
+          <div class="comment-bubble <%= 'comment--self' if comment.user == current_user %>">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+              <strong style="font-size: 0.85rem; color: #475569;"><%= comment.user.name || comment.user.email %></strong>
+              <small style="color: #94a3b8;"><%= comment.created_at.strftime("%d/%m/%Y às %H:%M") %></small>
+            </div>
+            <div class="description-text" style="font-size: 1rem;">
+              <%= simple_format comment.content %>
+            </div>
+            
+            <%# Exibição de fotos enviadas nos comentários %>
+            <% if comment.medias.attached? %>
+              <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+                <% comment.medias.each do |media| %>
+                  <% if media.content_type.start_with?('image/') %>
+                    <%= image_tag media, style: "max-width: 300px; border-radius: 12px; border: 1px solid #e2e8f0;" %>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <%# FORMULÁRIO DE RESPOSTA %>
+    <div style="margin-top: 50px;">
+      <%= form_with(model: [@ticket, Comment.new], local: true, multipart: true) do |form| %>
+        
+        <%# OLHA ESSA LINHA AQUI: %>
+        <%= form.text_area :content, rows: 4, placeholder: "Digite sua resposta...", class: "text-area" %>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+          <div class="file-input-wrapper">
+            <%= form.file_field :medias, multiple: true %>
+          </div>
+          <%= form.submit "Enviar Mensagem", class: "button" %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <%# 6. AUDITORIA: Registro histórico de alterações %>
+  <details style="color: #94a3b8; font-size: 0.8rem; margin-top: 40px; padding: 0 40px;">
+    <summary style="cursor: pointer;">Visualizar log de auditoria</summary>
+    <div style="margin-top: 20px;">
+      <% if defined?(PaperTrail) && @ticket.versions.any? %>
+        <% @ticket.versions.reorder(created_at: :desc).each do |version| %>
+          <p><%= version.created_at.strftime("%d/%m %H:%M") %>: Alteração registrada (Evento: <%= version.event %>).</p>
+        <% end %>
+      <% else %>
+        <p>Nenhuma alteração de sistema registrada para este chamado.</p>
+      <% end %>
+    </div>
+  </details>
+</div>
