@@ -67,7 +67,8 @@ Para garantir uma gestão eficiente, o sistema conta com filtros inteligentes qu
 
 ## 🗄️ Diagrama Relacional do Banco de Dados
 
-<img width="1833" height="1766" alt="Diagrama Entidade Relacionamento" src="[https://github.com/user-attachments/assets/34220afc-aad9-4c40-8134-970058e36e60](https://github.com/user-attachments/assets/34220afc-aad9-4c40-8134-970058e36e60)" />
+<img width="1833" height="1766" alt="Untitled (1)" src="https://github.com/user-attachments/assets/ad024470-a052-4a2b-8dc4-c00cfe499a4a" />
+
 
 ---
 
