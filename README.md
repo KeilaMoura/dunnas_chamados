@@ -33,7 +33,6 @@ O sistema possui controle de acesso baseado em três perfis (Roles):
 * **Ruby on Rails:** Escolhido pela alta produtividade e pelas convenções consolidadas que permitem focar nas regras de negócio.
 * **Administrate:** Adotado para a criação acelerada do painel de controle (Back-office). As telas geradas foram customizadas para lidar com escopos específicos (ex: mostrar apenas colaboradores em determinados formulários).
 * **Docker & Docker Compose:** Utilizado para padronizar o ambiente de desenvolvimento. Toda a aplicação e o banco de dados rodam em containers, eliminando a barreira do "na minha máquina funciona" e facilitando o deploy.
-* **Desacoplamento de Vínculos (N:N):** Foi decidido usar uma tabela de ligação (`user_units`) entre usuários e apartamentos. Isso resolve um problema técnico comum: ao remover um morador de um apartamento, o sistema apaga apenas o vínculo, preservando a conta do usuário e todo o seu histórico de chamados no banco de dados, evitando erros de `ForeignKeyViolation`.
 * **Testes (RSpec):** Implementação de testes automatizados para garantir a estabilidade das regras de negócio e integridade do banco de dados a cada nova alteração.
 
 ---
