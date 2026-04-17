@@ -24,7 +24,7 @@ O sistema possui controle de acesso baseado em três perfis (Roles):
 
 1. 👑 **Administrador Geral (Admin):** Possui acesso irrestrito ao painel. Pode cadastrar condomínios/unidades, criar categorias de chamados (com SLAs), gerenciar a equipe de colaboradores e ter uma visão gerencial de todos os tickets.
 2. 🛠️ **Colaborador (Collaborator):** O profissional que executa o serviço (ex: zelador, encanador). Tem acesso restrito para visualizar e atualizar apenas os chamados que pertencem à sua área de atuação.
-3. 🏠 **Morador (User):** O usuário final. Acessa o sistema apenas para gerenciar as unidades onde mora (pode ter mais de uma) e abrir/acompanhar o status dos seus próprios chamados.
+3. 🏠 **Morador (Resident):** O usuário final. Acessa o sistema apenas para gerenciar as unidades onde mora (pode ter mais de uma) e abrir/acompanhar o status dos seus próprios chamados.
 
 ---
 
