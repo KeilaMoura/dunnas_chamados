@@ -145,7 +145,7 @@ Isso garante que o comando `docker compose up` seja a única coisa que o usuári
 
 ---
 
-## ✅ Atendimento aos Requisitos e Boas Práticas (Checklist)
+## ✅ Atendimento aos Requisitos e Boas Práticas:
 
 * **Versionamento de Banco:** Todas as alterações estruturais foram feitas via Migrations, permitindo a recriação consistente do banco em qualquer ambiente.
 * **SLA e Auditoria:** O sistema calcula automaticamente o tempo de resolução (`resolved_at`) e mantém o histórico de interações via comentários, fechando o ciclo de vida real de um chamado com total rastreabilidade.
