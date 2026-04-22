@@ -129,7 +129,7 @@ Após rodar o comando de `seed` no passo anterior, o banco de dados será popula
 
 ---
 
-## ⚙️ Arquitetura DevOps: Por baixo dos panos (Entrypoint)
+## ⚙️ Arquitetura DevOps: 
 
 Para garantir uma **Experiência Zero Fricção** para quem clona o repositório, o projeto conta com um script de inicialização automatizado (`entrypoint.sh`).
 
@@ -149,6 +149,8 @@ Isso garante que o comando `docker compose up` seja a única coisa que o usuári
 
 * **Versionamento de Banco:** Todas as alterações estruturais foram feitas via Migrations, permitindo a recriação consistente do banco em qualquer ambiente.
 * **SLA e Auditoria:** O sistema calcula automaticamente o tempo de resolução (`resolved_at`) e mantém o histórico de interações via comentários, fechando o ciclo de vida real de um chamado com total rastreabilidade.
+* **Sistema de Filtros Avançados:** Buscas por status, categoria e bloco, essencial para escalar a operação de um condomínio grande.
+* **Comunicação Rica (Comentários e Anexos):** Troca de mensagens direta no chamado com suporte a imagens, eliminando a necessidade de comunicação externa (WhatsApp) e centralizando as evidências do problema e da resolução.
 
 ---
 
