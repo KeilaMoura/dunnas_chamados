@@ -16,6 +16,7 @@
 * [Sistema de Filtros e Busca](#sistema-de-filtros-e-busca)
 * [Fluxo do Sistema (Ciclo de Vida do Chamado)](#fluxo-do-sistema-ciclo-de-vida-do-chamado)
 * [Diagrama e Relacionamentos do Banco de Dados](#diagrama-e-relacionamentos-do-banco-de-dados)
+* [Resumo dos Relacionamentos do Banco de Dados](#resumo-dos-relacionamentos)
 * [Extras e Diferenciais Implementados](#extras-e-diferenciais-implementados)
 * [Instruções de Execução (Docker)](#instruções-de-execução-docker)
 * [Credenciais Iniciais](#credenciais-iniciais)
@@ -108,7 +109,7 @@ Para garantir uma gestão eficiente, o sistema conta com filtros inteligentes qu
 
 * Link para visualização: https://dbdiagram.io/d/69e8df3ad80a958d1cb0ab2d
 
-### Resumo dos Relacionamentos (Schema Real)
+### Resumo dos Relacionamentos 
 
 | Relacionamento | Tipo | Via |
 | :--- | :--- | :--- |
